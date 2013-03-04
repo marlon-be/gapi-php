@@ -47,6 +47,7 @@ class Gapi
   private $report_aggregate_metrics = array();
   private $report_root_parameters = array();
   private $results = array();
+  private $oauth2;
   
   /**
    * Constructor function for all new gapi instances
@@ -58,8 +59,9 @@ class Gapi
    * @param String $token
    * @return gapi
    */
-  public function __construct($email, $password, $token=null)
+  public function __construct($email, $password, $token=null, $useOauthToken = false)
   {
+    $this->oauth2 = $useOauthToken;
     if($token !== null)
     {
       $this->auth_token = $token;
@@ -439,7 +441,11 @@ class Gapi
    */
   protected function generateAuthHeader()
   {
-    return array('Authorization: Bearer ' . $this->auth_token);
+    if($this->oauth2) {
+        return array('Authorization: Bearer ' . $this->auth_token);
+    } else {
+        return array('Authorization: GoogleLogin auth=' . $this->auth_token);
+    }
   }
   
   /**
