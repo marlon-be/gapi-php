@@ -439,7 +439,7 @@ class Gapi
    */
   protected function generateAuthHeader()
   {
-    return array('Authorization: GoogleLogin auth=' . $this->auth_token);
+    return array('Authorization: Bearer ' . $this->auth_token);
   }
   
   /**
